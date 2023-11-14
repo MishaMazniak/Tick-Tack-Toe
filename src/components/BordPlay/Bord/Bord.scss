@@ -1,0 +1,31 @@
+.my-bord {
+  margin: 10px 0;
+  .block-section {
+    display: flex;
+    justify-content: center;
+    .section {
+      position: relative;
+      height: 100px;
+      width: 100px;
+      background: silver;
+      margin: 10px;
+      border-radius: 20px;
+      border: 2px solid black;
+      h1 {
+        color: black;
+        position: absolute;
+        margin-top: 50%;
+        margin-left: 50%;
+      }
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+    }
+    .winner {
+      background: green;
+      border: 2px solid green;
+      transform: scale(1.1);
+    }
+  }
+}
