@@ -117,23 +117,49 @@ function Bord() {
   }
   // check resoult
   useEffect(() => {
-    let lines: string[][] = [
-      [oneOne, oneTwo, oneThree],
-      [twoOne, twoTwo, twoThree],
-      [threeOne, threeTwo, threeThree],
-      [oneOne, twoOne, threeOne],
-      [oneTwo, twoTwo, threeTwo],
-      [oneThree, twoThree, threeThree],
-      [oneOne, twoTwo, threeThree],
-      [oneThree, twoTwo, threeOne]
-    ]
-    for (let line of lines) {
+    let lines: Record<string, string[]> = {
+      horTop: [oneOne, oneTwo, oneThree],
+      horMid: [twoOne, twoTwo, twoThree],
+      horBoot: [threeOne, threeTwo, threeThree],
+      vertLeft: [oneOne, twoOne, threeOne],
+      vertMid: [oneTwo, twoTwo, threeTwo],
+      vertRight: [oneThree, twoThree, threeThree],
+      bevRight: [oneOne, twoTwo, threeThree],
+      bevLeft: [oneThree, twoTwo, threeOne]
+    }
+    for (let lineKey in lines) {
+      const line = lines[lineKey] as string[]
       const [a, b, c] = line
       if (a === b && b === c) {
         let winner = a
-        // setHorTop("winner")
         if (winner) {
           handleWinner(winner)
+          switch (lineKey) {
+            case "horTop":
+              setHorTop("winner")
+              break
+            case "horMid":
+              setHorMid("winner")
+              break
+            case "horBoot":
+              setHorBoot("winner")
+              break
+            case "vertLeft":
+              setVertLeft("winner")
+              break
+            case "vertMid":
+              setVertMid("winner")
+              break
+            case "vertRight":
+              setVertRight("winner")
+              break
+            case "bevRight":
+              setBevRight("winner")
+              break
+            case "bevLeft":
+              setBevLeft("winner")
+              break
+          }
         }
       }
     }
