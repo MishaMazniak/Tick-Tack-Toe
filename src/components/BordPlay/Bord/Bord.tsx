@@ -1,13 +1,27 @@
 import "./Bord.scss"
 import {useState, useEffect} from "react"
 import {useDispatch} from "react-redux"
-import {addUsers} from "../../../redux/dataUsers"
+import {useSelector} from "react-redux"
+import {updateUserWinner, resetVic} from "../../../redux/dataUsers"
 
 function Bord() {
   const dispatch = useDispatch()
 
+  interface RootState {
+    dataUsers: {
+      firstUser: {name: string; choice: string; winner: number}
+      secondUser: {name: string; choice: string; winner: number}
+      resetVic: boolean
+    }
+  }
+  let UsersDataRedux = useSelector((state: RootState) => state.dataUsers)
+  const resVic = UsersDataRedux.resetVic
   const [check, setcheck] = useState(true) //change "X" on "O" after clicked
   const [endGame, setEndGame] = useState(true) //locking the board after a winning combination
+
+  // data for change value winner in function handleWinner
+  const [reduxFirstWinner, setReduxFirstWinner] = useState(0)
+  const [reduxSecondWinner, setReduxSecondWinner] = useState(0)
   // data section "X" or "O"
   const [oneOne, setOneOne] = useState("")
   const [oneTwo, setOneTwo] = useState("")
@@ -51,58 +65,97 @@ function Bord() {
     }
     setcheck(!check) //change step "X" on "O"
   }
+  // add victory for winner
+  const handleWinner = (winner: string) => {
+    switch (winner) {
+      case "X":
+        if (UsersDataRedux.firstUser.choice === "X" && endGame) {
+          setReduxFirstWinner(reduxFirstWinner + 1)
+          dispatch(
+            updateUserWinner({
+              countFirstWinner: reduxFirstWinner,
+              countSecondWinner: reduxSecondWinner
+            })
+          )
+        } else if (UsersDataRedux.secondUser.choice === "X" && endGame) {
+          setReduxSecondWinner(reduxSecondWinner + 1)
+          dispatch(
+            updateUserWinner({
+              countFirstWinner: reduxFirstWinner,
+              countSecondWinner: reduxSecondWinner
+            })
+          )
+        }
+        break
+      case "O":
+        if (UsersDataRedux.firstUser.choice === "O" && endGame) {
+          setReduxFirstWinner(reduxFirstWinner + 1)
+          dispatch(
+            updateUserWinner({
+              countFirstWinner: reduxFirstWinner,
+              countSecondWinner: reduxSecondWinner
+            })
+          )
+        } else if (UsersDataRedux.secondUser.choice === "O" && endGame) {
+          setReduxSecondWinner(reduxSecondWinner + 1)
+          dispatch(
+            updateUserWinner({
+              countFirstWinner: reduxFirstWinner,
+              countSecondWinner: reduxSecondWinner
+            })
+          )
+        }
+        break
+    }
+    dispatch(
+      updateUserWinner({
+        countFirstWinner: reduxFirstWinner,
+        countSecondWinner: reduxSecondWinner
+      })
+    )
+    setEndGame(false)
+  }
   // check resoult
   useEffect(() => {
-    if (
-      (oneOne === "X" && oneTwo === "X" && oneThree === "X") ||
-      (oneOne === "O" && oneTwo === "O" && oneThree === "O")
-    ) {
-      setHorTop("winner") // add style green
-      setEndGame(false) // locking the board
-    } else if (
-      (twoOne === "X" && twoTwo === "X" && twoThree === "X") ||
-      (twoOne === "O" && twoTwo === "O" && twoThree === "O")
-    ) {
-      setHorMid("winner")
-      setEndGame(false)
-    } else if (
-      (threeOne === "X" && threeTwo === "X" && threeThree === "X") ||
-      (threeOne === "O" && threeTwo === "O" && threeThree === "O")
-    ) {
-      setHorBoot("winner")
-      setEndGame(false)
-    } else if (
-      (oneOne === "X" && twoOne === "X" && threeOne === "X") ||
-      (oneOne === "O" && twoOne === "O" && threeOne === "O")
-    ) {
-      setVertLeft("winner")
-      setEndGame(false)
-    } else if (
-      (oneTwo === "X" && twoTwo === "X" && threeTwo === "X") ||
-      (oneTwo === "O" && twoTwo === "O" && threeTwo === "O")
-    ) {
-      setVertMid("winner")
-      setEndGame(false)
-    } else if (
-      (oneThree === "X" && twoThree === "X" && threeThree === "X") ||
-      (oneThree === "O" && twoThree === "O" && threeThree === "O")
-    ) {
-      setVertRight("winner")
-      setEndGame(false)
-    } else if (
-      (oneOne === "X" && twoTwo === "X" && threeThree === "X") ||
-      (oneOne === "O" && twoTwo === "O" && threeThree === "O")
-    ) {
-      setBevRight("winner")
-      setEndGame(false)
-    } else if (
-      (oneThree === "X" && twoTwo === "X" && threeOne === "X") ||
-      (oneThree === "O" && twoTwo === "O" && threeOne === "O")
-    ) {
-      setBevLeft("winner")
-      setEndGame(false)
+    let lines: string[][] = [
+      [oneOne, oneTwo, oneThree],
+      [twoOne, twoTwo, twoThree],
+      [threeOne, threeTwo, threeThree],
+      [oneOne, twoOne, threeOne],
+      [oneTwo, twoTwo, threeTwo],
+      [oneThree, twoThree, threeThree],
+      [oneOne, twoTwo, threeThree],
+      [oneThree, twoTwo, threeOne]
+    ]
+    for (let line of lines) {
+      const [a, b, c] = line
+      if (a === b && b === c) {
+        let winner = a
+        // setHorTop("winner")
+        if (winner) {
+          handleWinner(winner)
+        }
+      }
     }
-  }, [oneOne, oneThree, twoTwo, threeOne, threeThree])
+    // reset value Victory
+    if (!resVic) {
+      setReduxFirstWinner(0)
+      setReduxSecondWinner(0)
+      dispatch(resetVic({resetVic: true}))
+    }
+  }, [
+    oneOne,
+    oneTwo,
+    oneThree,
+    twoOne,
+    twoTwo,
+    twoThree,
+    threeOne,
+    threeTwo,
+    threeThree,
+    endGame,
+    resVic
+  ])
   // clear bord without "X" or "O"
   function newGame() {
     setOneOne("")

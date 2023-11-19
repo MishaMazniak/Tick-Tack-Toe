@@ -3,24 +3,27 @@ import {createSlice} from "@reduxjs/toolkit"
 export const dataSlice = createSlice({
   name: "dataUsers",
   initialState: {
-    firstUserName: "",
-    secondUserName: "",
-    firstUserChoice: "",
-    secondUserChoice: "",
-    countFirstWinner: 0,
-    countSecondWinner: 0
+    firstUser: {name: "", choice: "", winner: 0},
+    secondUser: {name: "", choice: "", winner: 0},
+    resetVic: true
   },
   reducers: {
+    updateUserWinner: (state, action) => {
+      state.firstUser.winner = action.payload.countFirstWinner
+      state.secondUser.winner = action.payload.countSecondWinner
+    },
+    resetVic: (state, action) => {
+      state.resetVic = action.payload.resetVic
+    },
     addUsers: (state, action) => {
-      state.firstUserName = action.payload.firstUserName
-      state.secondUserName = action.payload.secondUserName
-      state.firstUserChoice = action.payload.firstUserChoice
-      state.secondUserChoice = action.payload.secondUserChoice
-      state.countFirstWinner = action.payload.countFirstWinner
-      state.countSecondWinner = action.payload.countSecondWinner
+      state.firstUser.name = action.payload.firstUserName
+      state.firstUser.choice = action.payload.firstUserChoice
+
+      state.secondUser.name = action.payload.secondUserName
+      state.secondUser.choice = action.payload.secondUserChoice
     }
   }
 })
 
-export const {addUsers} = dataSlice.actions
+export const {updateUserWinner, resetVic, addUsers} = dataSlice.actions
 export default dataSlice.reducer

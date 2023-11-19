@@ -45,10 +45,10 @@ function Users(props: UsersProps) {
     } else {
       dispatch(
         addUsers({
-          firstUserName: {firstUserName},
-          secondUserName: {secondUserName},
-          firstUserChoice: {firstUserChoice},
-          secondUserChoice: {secondUserChoice},
+          firstUserName: firstUserName,
+          secondUserName: secondUserName,
+          firstUserChoice: firstUserChoice,
+          secondUserChoice: secondUserChoice,
           countFirstWinner: 0,
           countSecondWinner: 0
         })
