@@ -10,7 +10,7 @@ interface UsersProps {
 function BordPlay(props: UsersProps) {
   return (
     <div className="container text-center my-bord-wraper">
-      <h1>Tick-Tack-Toe</h1>
+      <h1>Noughts && Crosses</h1>
       <NavInfo></NavInfo>
       <Bord></Bord>
       <Resoult changeScrin={props.changeScrin}></Resoult>

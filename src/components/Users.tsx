@@ -48,9 +48,7 @@ function Users(props: UsersProps) {
           firstUserName: firstUserName,
           secondUserName: secondUserName,
           firstUserChoice: firstUserChoice,
-          secondUserChoice: secondUserChoice,
-          countFirstWinner: 0,
-          countSecondWinner: 0
+          secondUserChoice: secondUserChoice
         })
       )
       props.changeScrin()
@@ -66,7 +64,7 @@ function Users(props: UsersProps) {
 
   return (
     <div className="container text-center">
-      <h1> Tick-Tack-Toe</h1>
+      <h1> Noughts && Crosses</h1>
       <form className="my-form" onSubmit={addDateUsers}>
         <div className="input-group my-2">
           <input

@@ -5,7 +5,8 @@ export const dataSlice = createSlice({
   initialState: {
     firstUser: {name: "", choice: "", winner: 0},
     secondUser: {name: "", choice: "", winner: 0},
-    resetVic: true
+    resetVic: true,
+    switchStep: true
   },
   reducers: {
     updateUserWinner: (state, action) => {
@@ -14,6 +15,9 @@ export const dataSlice = createSlice({
     },
     resetVic: (state, action) => {
       state.resetVic = action.payload.resetVic
+    },
+    switchStep: (state, action) => {
+      state.switchStep = action.payload.switchStep
     },
     addUsers: (state, action) => {
       state.firstUser.name = action.payload.firstUserName
@@ -25,5 +29,6 @@ export const dataSlice = createSlice({
   }
 })
 
-export const {updateUserWinner, resetVic, addUsers} = dataSlice.actions
+export const {updateUserWinner, resetVic, switchStep, addUsers} =
+  dataSlice.actions
 export default dataSlice.reducer

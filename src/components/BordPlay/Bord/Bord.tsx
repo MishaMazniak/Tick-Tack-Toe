@@ -2,7 +2,7 @@ import "./Bord.scss"
 import {useState, useEffect} from "react"
 import {useDispatch} from "react-redux"
 import {useSelector} from "react-redux"
-import {updateUserWinner, resetVic} from "../../../redux/dataUsers"
+import {updateUserWinner, resetVic, switchStep} from "../../../redux/dataUsers"
 
 function Bord() {
   const dispatch = useDispatch()
@@ -61,9 +61,14 @@ function Bord() {
           check ? setThreeTwo("X") : setThreeTwo("O")
         else if (idEl === "section-9")
           check ? setThreeThree("X") : setThreeThree("O")
+        setcheck(!check) //change step "X" on "O" and send in redux
+        dispatch(
+          switchStep({
+            switchStep: check
+          })
+        )
       }
     }
-    setcheck(!check) //change step "X" on "O"
   }
   // add victory for winner
   const handleWinner = (winner: string) => {
@@ -195,6 +200,11 @@ function Bord() {
     setThreeThree("")
     setcheck(true)
     setEndGame(true)
+    dispatch(
+      switchStep({
+        switchStep: true
+      })
+    )
     // clear bord without styles "winner line"
     setHorTop("")
     setHorMid("")
