@@ -40,8 +40,12 @@ function Resoult(props: UsersProps) {
         </div>
         <div>
           <div>Victory</div>
-          <div className="user-resoult">{UsersData.firstUser.winner}</div>
-          <div className="user-resoult">{UsersData.secondUser.winner}</div>
+          <div className="user-resoult">
+            {UsersData.firstUser.choice} - {UsersData.firstUser.winner}
+          </div>
+          <div className="user-resoult">
+            {UsersData.secondUser.choice} - {UsersData.secondUser.winner}
+          </div>
           <div className="btn btn-primary mt-2" onClick={resetVictory}>
             Reset
           </div>

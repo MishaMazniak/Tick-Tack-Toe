@@ -64,7 +64,7 @@ function Users(props: UsersProps) {
 
   return (
     <div className="container text-center">
-      <h1> Noughts && Crosses</h1>
+      <h1>Noughts && Crosses</h1>
       <form className="my-form" onSubmit={addDateUsers}>
         <div className="input-group my-2">
           <input
